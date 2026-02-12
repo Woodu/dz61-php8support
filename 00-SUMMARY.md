@@ -28,9 +28,10 @@ A comprehensive, code-level migration plan for Discuz! 6.1F to modern PHP 8.x.
 | 10 | 08-gbk-to-utf8-detailed.md | 612 | 15K | UTF-8 conversion guide |
 | 11 | 09-testing-strategy.md | 681 | 16K | Quality assurance plan |
 | 12 | 10-deployment-plan.md | 656 | 13K | Production rollout strategy |
-| 13 | 11-file-level-test-plan.md | 1,500+ | 40K+ | File-by-file test requirements & cases 🆕 |
+| 13 | 11-file-level-test-plan.md | 1,172 | 40K | File-by-file test requirements & cases |
+| 14 | 12-tdd-workflow.md | 1,500+ | 45K+ | Standard TDD workflow (RED-GREEN-REFACTOR) 🆕 |
 
-**Total:** 11,600+ lines across 13 documents (300KB+)
+**Total:** 13,100+ lines across 14 documents (345KB+)
 
 ---
 
@@ -150,7 +151,87 @@ Unlike generic testing guides, this provides:
 
 ---
 
-### 5. Visual Dependencies
+### 5. Standard TDD Workflow 🆕
+
+**NEW: Document 12 - TDD Workflow & SOP (1,500+ lines)**
+
+Complete step-by-step workflow for migrating every file using Test-Driven Development.
+
+**The Core TDD Cycle (Red-Green-Refactor):**
+
+```
+🔴 RED     → Write failing test (describe behavior first)
+🟢 GREEN   → Make test pass (simplest implementation)
+🔵 REFACTOR → Clean up code (keep tests green)
+➡️  NEXT    → Move to next requirement (back to RED)
+```
+
+**What This Document Provides:**
+
+1. **Detailed SOP for Each File Migration**
+   - Phase 1: Preparation (15 min) - Read legacy, create test file
+   - Phase 2: TDD Migration (2-3 hours) - RED→GREEN→REFACTOR cycles
+   - Phase 3: Integration (30 min) - Full test suite, linting, type check
+   - Phase 4: Documentation (15 min) - Update checklists
+
+2. **Daily Workflow Schedule**
+   - 09:00 - Daily standup (15 min)
+   - 09:15-11:00 - RED phase (write tests)
+   - 11:00-12:30 - GREEN phase (make tests pass)
+   - 12:30-13:30 - Lunch break
+   - 13:30-15:00 - REFACTOR phase (clean up)
+   - 15:00-16:00 - Integration (full test suite)
+   - 16:00-16:30 - Code review
+   - 16:30-17:00 - Retro/planning
+
+3. **Commit Message Standards**
+   ```bash
+   git commit -m "test(feature): add failing test (RED)"
+   git commit -m "feat(feature): implement feature (GREEN)"
+   git commit -m "refactor(feature): improve design (REFACTOR)"
+   ```
+
+4. **Pair Programming Workflow**
+   - Driver-Navigator pattern
+   - Switch roles every 20 minutes
+   - Complete session SOP included
+
+5. **Troubleshooting Guide**
+   - Test won't fail? → Verify namespace/import
+   - Test won't pass? → Spike solution, timebox 45 min
+   - Tests failing during refactor? → Revert, smaller steps
+   - Integration tests fail? → Check global state, dependencies
+
+6. **Quality Gates**
+   - Gate 1: Test fails (RED phase)
+   - Gate 2: Test passes (GREEN phase)
+   - Gate 3: Tests still pass + clean code (REFACTOR)
+   - Gate 4: File complete (all tests + coverage + integration)
+
+7. **Physical Workspace Setup**
+   - Left monitor: Legacy code (read-only)
+   - Right monitor: Modern code + tests
+   - Terminal tabs: Code, Tests, Git/Tests, Logs
+
+8. **Quick Reference Card** (Print and keep on desk!)
+   - RED phase checklist
+   - GREEN phase checklist
+   - REFACTOR phase checklist
+   - Emergency procedures
+
+**Key Difference from Generic TDD Guides:**
+- ✅ Not just "write tests first"
+- ✅ Exact time budgets for each phase
+- ✅ Specific commit message patterns
+- ✅ Daily schedule optimized for flow
+- ✅ Emergency procedures when stuck
+- ✅ Printable quick reference card
+
+**This is your DAILY OPERATING MANUAL for the migration project.**
+
+---
+
+### 6. Visual Dependencies
 
 **11 Mermaid diagrams showing:**
 - High-level feature dependencies
@@ -166,9 +247,9 @@ Unlike generic testing guides, this provides:
 
 ---
 
-### 6. Risk Management
+### 7. Risk Management
 
-**6 major risks identified:**
+**7 major risks identified:**
 1. UTF-8 conversion failure (HIGH)
 2. Underestimated complexity (HIGH)
 3. Performance regression (MEDIUM)

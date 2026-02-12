@@ -28,7 +28,8 @@ modern-php-execution-plan/
 ├── 08-gbk-to-utf8-detailed.md - Encoding conversion (⚠️ EXECUTE IN WEEK 1!)
 ├── 09-testing-strategy.md - Quality assurance strategy
 ├── 10-deployment-plan.md - Production rollout
-└── 11-file-level-test-plan.md - File-by-file test requirements & test cases 🆕
+├── 11-file-level-test-plan.md - File-by-file test requirements & test cases
+└── 12-tdd-workflow.md - Standard TDD workflow (RED-GREEN-REFACTOR) 🆕
 ```
 
 > **⚠️ CRITICAL**: Although `08-gbk-to-utf8-detailed.md` is document #8, **GBK→UTF-8 migration MUST be executed in Week 1 (P0 phase)** before any other development. See Sprint 1 tasks in `06-execution-sprints.md`.
@@ -47,11 +48,22 @@ modern-php-execution-plan/
 
 ### For Developers
 
-**Start here:**
-1. **Read `08-gbk-to-utf8-detailed.md`** - UTF-8 is foundation for all code
-2. Study `01-p0-critical-path.md` - Learn architecture
-3. Review `05-dependency-graph.md` - Understand dependencies
-4. Check `02-p1-core-features.md` - Start coding (after UTF-8 migration)
+**CRITICAL - Read This First:**
+1. **`12-tdd-workflow.md`** - Standard TDD workflow (RED-GREEN-REFACTOR) 🆕
+   - This is your DAILY guide for how to migrate each file
+   - Print the Quick Reference Card and keep on your desk!
+
+**Then:**
+2. **`08-gbk-to-utf8-detailed.md`** - UTF-8 is foundation for all code
+3. Study `01-p0-critical-path.md` - Learn architecture
+4. Review `05-dependency-graph.md` - Understand dependencies
+5. Check `02-p1-core-features.md` - Start coding (after UTF-8 migration)
+
+**Daily Workflow:**
+- Follow RED → GREEN → REFACTOR cycle for every change
+- Commit each phase separately
+- Run tests after every change
+- Update `07-file-migration-checklist.md` daily
 
 ### For QA Engineers
 
