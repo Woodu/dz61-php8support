@@ -2,9 +2,32 @@
 
 **Created:** 2026-02-13
 **Location:** /root/poketb-renew/modern-php-execution-plan/
-**Total Documents:** 11
-**Total Content:** 10,156 lines
+**Total Documents:** 14 + 1 AI guide
+**Total Content:** 15,000+ lines
 **Status:** ✅ COMPLETE
+
+---
+
+## ⚠️ FOR AI AGENTS: START HERE!
+
+**If you are an AI agent (Claude, etc.) assigned to execute this migration:**
+
+👉 **READ THIS FIRST: `00-AI-EXECUTION-GUIDE.md`**
+
+This special document provides:
+- ✅ Exact execution sequence (what to read, in what order)
+- ✅ Decision trees for file selection
+- ✅ Step-by-step TDD instructions (RED→GREEN→REFACTOR)
+- ✅ Daily workflow (09:00-17:00 schedule)
+- ✅ Quality gates (what must pass before proceeding)
+- ✅ Troubleshooting (what to do when stuck)
+- ✅ Progress reporting format (how to update user)
+
+**The AI Execution Guide is your COMPLETE INSTRUCTION MANUAL.**
+
+After reading `00-AI-EXECUTION-GUIDE.md`, then proceed with other documents.
+
+---
 
 ---
 
@@ -16,7 +39,8 @@ A comprehensive, code-level migration plan for Discuz! 6.1F to modern PHP 8.x.
 
 | # | Document | Lines | Size | Description |
 |---|----------|--------|-------|-------------|
-| 1 | README.md | 578 | 12K | Overview and quick start |
+| **0** | **00-AI-EXECUTION-GUIDE.md** | **1,000+** | **35K+** | **🚨 CLAUDE: READ THIS FIRST!** |
+| 1 | README.md | 600+ | 13K | Overview and quick start (updated for AI) |
 | 2 | 00-complete-feature-inventory.md | 359 | 21K | All 964 files mapped to features |
 | 3 | 01-p0-critical-path.md | 2,457 | 61K | Critical infrastructure with code examples |
 | 4 | 02-p1-core-features.md | 1,062 | 28K | Core forum functionality |
@@ -29,9 +53,9 @@ A comprehensive, code-level migration plan for Discuz! 6.1F to modern PHP 8.x.
 | 11 | 09-testing-strategy.md | 681 | 16K | Quality assurance plan |
 | 12 | 10-deployment-plan.md | 656 | 13K | Production rollout strategy |
 | 13 | 11-file-level-test-plan.md | 1,172 | 40K | File-by-file test requirements & cases |
-| 14 | 12-tdd-workflow.md | 1,500+ | 45K+ | Standard TDD workflow (RED-GREEN-REFACTOR) 🆕 |
+| 14 | 12-tdd-workflow.md | 1,056 | 45K+ | Standard TDD workflow (RED-GREEN-REFACTOR) |
 
-**Total:** 13,100+ lines across 14 documents (345KB+)
+**Total:** 15,000+ lines across 15 documents (380KB+)
 
 ---
 

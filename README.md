@@ -8,6 +8,25 @@
 
 ---
 
+## ⚠️ FOR AI AGENTS (CLAUDE): READ THIS FIRST!
+
+**If you are an AI agent (like Claude) assigned to execute this migration:**
+
+👉 **START HERE: `00-AI-EXECUTION-GUIDE.md`** ← READ THIS FILE FIRST!
+
+This document contains:
+- ✅ Exact execution sequence (what to read, in what order)
+- ✅ How to select files (decision tree)
+- ✅ Step-by-step TDD workflow (RED→GREEN→REFACTOR)
+- ✅ Daily workflow (morning to end-of-day)
+- ✅ Quality gates (what must pass before proceeding)
+- ✅ Troubleshooting guide (what to do when stuck)
+- ✅ Progress reporting format (how to update user)
+
+**The AI Execution Guide is your instruction manual. Read it before doing anything else!**
+
+---
+
 ## Document Overview
 
 This execution plan provides a complete, actionable roadmap for migrating Discuz! 6.1F from legacy PHP 4/5 code to modern PHP 8.3.
@@ -17,7 +36,9 @@ This execution plan provides a complete, actionable roadmap for migrating Discuz
 ```
 modern-php-execution-plan/
 ├── README.md (this file)
+├── 00-AI-EXECUTION-GUIDE.md - ⚠️ READ THIS FIRST! Claude's instructions 🆕
 ├── 00-complete-feature-inventory.md - All 964 files mapped to features
+├── 00-SUMMARY.md - Executive summary of all documents
 ├── 01-p0-critical-path.md - Core infrastructure (must do first)
 ├── 02-p1-core-features.md - Essential forum functionality
 ├── 03-p2-important-features.md - Moderation, search, admin
@@ -29,7 +50,7 @@ modern-php-execution-plan/
 ├── 09-testing-strategy.md - Quality assurance strategy
 ├── 10-deployment-plan.md - Production rollout
 ├── 11-file-level-test-plan.md - File-by-file test requirements & test cases
-└── 12-tdd-workflow.md - Standard TDD workflow (RED-GREEN-REFACTOR) 🆕
+└── 12-tdd-workflow.md - Standard TDD workflow (RED-GREEN-REFACTOR)
 ```
 
 > **⚠️ CRITICAL**: Although `08-gbk-to-utf8-detailed.md` is document #8, **GBK→UTF-8 migration MUST be executed in Week 1 (P0 phase)** before any other development. See Sprint 1 tasks in `06-execution-sprints.md`.
@@ -37,6 +58,58 @@ modern-php-execution-plan/
 ---
 
 ## Quick Start
+
+### 👤 For Human Users
+
+**Start here:**
+1. Read `00-SUMMARY.md` - Executive overview
+2. Review `06-execution-sprints.md` - See timeline
+3. Check `07-file-migration-checklist.md` - Track progress
+
+### 🤖 For AI Agents (Claude, etc.)
+
+**⚠️ CRITICAL: READ INSTRUCTIONS FIRST!**
+
+**Step 1:** Read `00-AI-EXECUTION-GUIDE.md` (10 minutes)
+   - This tells you EXACTLY what to do
+   - Contains execution sequence
+   - Contains TDD workflow
+   - Contains decision trees
+
+**Step 2:** Follow execution sequence:
+   ```
+   00-AI-EXECUTION-GUIDE.md (READ FIRST!)
+   ↓
+   06-execution-sprints.md (current Sprint)
+   ↓
+   01-p0-critical-path.md OR 02/03/04 (depending on Sprint)
+   ↓
+   07-file-migration-checklist.md (select files)
+   ↓
+   12-tdd-workflow.md (follow RED→GREEN→REFACTOR)
+   ↓
+   11-file-level-test-plan.md (get test templates)
+   ```
+
+**Step 3:** Execute following TDD cycle
+   - 🔴 RED: Write test first
+   - 🟢 GREEN: Make test pass
+   - 🔵 REFACTOR: Clean up code
+   - Repeat for each function
+
+**Step 4:** Update progress after each file
+   - Mark files as ✅ in 07-file-migration-checklist.md
+   - Report completion to user
+
+**Remember:**
+- ✅ READ BEFORE YOU CODE (never skip)
+- ✅ Follow TDD cycle exactly (no shortcuts)
+- ✅ Update checklists daily (keep progress visible)
+- ✅ Ask when uncertain (don't guess)
+
+---
+
+### For Project Managers
 
 ### For Project Managers
 
