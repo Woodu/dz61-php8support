@@ -2431,9 +2431,12 @@ class FileStore implements Store
 **Dependencies:** Sequential (must do in order)
 
 ### Week 1: Foundation (Days 1-5)
-- Day 1-2: Configuration System (1.1)
-- Day 3-4: Core Bootstrap (1.2)
+- Day 1: **GBK→UTF-8 Database Migration** (see Document 08)
+- Day 2: Configuration System (1.1)
+- Day 3-4: Core Bootstrap + String Functions Migration (1.2)
 - Day 5: Database Layer (1.3)
+
+**⚠️ Critical:** String functions must be migrated to UTF-8 variants (mb_*) during Week 1. See `08-gbk-to-utf8-detailed.md` → "Step 3: Update PHP String Functions" for complete migration list.
 
 ### Week 2: Authentication (Days 6-10)
 - Day 6-7: Session Management (2.2)

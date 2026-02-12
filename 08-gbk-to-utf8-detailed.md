@@ -289,66 +289,203 @@ $pdo->exec("SET NAMES utf8mb4");
 
 ### Step 3: Update PHP String Functions
 
+**IMPORTANT:** GBK uses 2 bytes per Chinese character, UTF-8 uses 3 bytes. All string functions that assume single-byte characters MUST be replaced with multi-byte equivalents.
+
+#### Complete String Function Migration List
+
+**Legacy → Modern Mapping:**
+
+| Legacy Function | Modern Function | Notes |
+|----------------|-----------------|---------|
+| `strlen()` | `mb_strlen($str, 'UTF-8')` | Character count, not bytes |
+| `substr()` | `mb_substr($str, $start, $len, 'UTF-8')` | Won't cut multi-byte chars |
+| `strpos()` | `mb_strpos($str, $needle, 0, 'UTF-8')` | Find position |
+| `strrpos()` | `mb_strrpos($str, $needle, 0, 'UTF-8')` | Find last position |
+| `strstr()` / `strchr()` | `mb_strstr($str, $needle, false, 'UTF-8')` | Find substring |
+| `strrchr()` | `mb_strrchr($str, $needle, false, 'UTF-8')` | Find last occurrence |
+| `strtolower()` | `mb_strtolower($str, 'UTF-8')` | Lowercase (Turkish safe) |
+| `strtoupper()` | `mb_strtoupper($str, 'UTF-8')` | Uppercase (Turkish safe) |
+| `ucfirst()` | `mb_convert_case($str, MB_CASE_TITLE, 'UTF-8')` | Capitalize first |
+| `ucwords()` | `mb_convert_case($str, MB_CASE_TITLE, 'UTF-8')` | Capitalize words |
+| `str_split()` | Custom function | Split by characters |
+| `str_ireplace()` | `mb_eregi_replace()` or preg_replace /u | Case-insensitive replace |
+| `strcmp()` | `mb_strcmp()` or `Collator` class | String comparison |
+| `strcasecmp()` | `mb_strcasecmp()` or `Collator` class | Case-insensitive compare |
+| `substr_count()` | `mb_substr_count($str, $needle, 'UTF-8')` | Count occurrences |
+| `trim()` | No change needed | Works on ASCII whitespace |
+| `ltrim()` / `rtrim()` | No change needed | Works on ASCII whitespace |
+| `str_replace()` | No change needed | Direct byte replacement |
+| `explode()` | No change needed | Works with delimiters |
+
 **Legacy Code (GBK-safe):**
 ```php
-// String length in GBK
-$length = strlen($string); // WRONG for GBK
+// String length in GBK - WRONG!
+$length = strlen($string); // Counts bytes, not characters
 
-// Substring in GBK
-$substring = substr($string, 0, 10); // WRONG - may cut multi-byte character
+// Substring in GBK - WRONG!
+$substring = substr($string, 0, 10); // May cut multi-byte character in half
+
+// String position - WRONG!
+$pos = strpos($string, '搜索'); // Won't work correctly with Chinese
+
+// Lowercase - WRONG for Chinese
+$lower = strtolower('中文ABC'); // Doesn't affect Chinese
+
+// Case comparison - WRONG
+$cmp = strcmp('字符串', '字符串'); // Byte comparison, not linguistic
 ```
 
 **Modern Code (UTF-8):**
 ```php
 // String length in UTF-8
-$length = mb_strlen($string, 'UTF-8');
+$length = mb_strlen($string, 'UTF-8'); // Counts characters correctly
 
 // Substring in UTF-8
-$substring = mb_substr($string, 0, 10, 'UTF-8');
+$substring = mb_substr($string, 0, 10, 'UTF-8'); // Never cuts characters
 
 // String position in UTF-8
-$position = mb_strpos($string, 'search', 0, 'UTF-8');
+$position = mb_strpos($string, '搜索', 0, 'UTF-8'); // Works with Chinese
+
+// Lowercase with UTF-8 support
+$lower = mb_strtolower('中文ABC', 'UTF-8'); // Handles multi-byte
+
+// Linguistic comparison
+$collator = new Collator('zh_CN');
+$cmp = $collator->compare('字符串', '字符串'); // Chinese locale aware
 ```
 
-**Automated Fix Script:** `scripts/fix-string-functions.php`
+#### Custom Helper Functions
+
+Add these to `src/Utils/StringHelper.php`:
 
 ```php
 <?php
 declare(strict_types=1);
 
-/**
- * Fix string functions for UTF-8
- */
+namespace App\Utils;
 
-function fixPhpFile(string $filePath): void
+use Collator;
+
+class StringHelper
 {
-    $content = file_get_contents($filePath);
+    private static ?Collator $collator = null;
 
-    // Replace strlen with mb_strlen
-    $content = preg_replace('/\bstrlen\s*\(/i', 'mb_strlen($1, \'UTF-8\')', $content);
-
-    // Replace substr with mb_substr
-    $content = preg_replace('/\bsubstr\s*\(/i', 'mb_substr($1, \'UTF-8\')', $content);
-
-    // Replace strpos with mb_strpos
-    $content = preg_replace('/\bstrpos\s*\(/i', 'mb_strpos($1, \'UTF-8\')', $content);
-
-    // Add mbstring declaration if needed
-    if (strpos($content, 'mb_') !== false && strpos($content, 'declare(strict_types=1)') !== false) {
-        // File already has strict types, good
+    public static function length(string $string): int
+    {
+        return mb_strlen($string, 'UTF-8');
     }
 
-    file_put_contents($filePath, $content);
-}
+    public static function truncate(string $string, int $length, string $suffix = '...'): string
+    {
+        if (self::length($string) <= $length) {
+            return $string;
+        }
 
-// Process all PHP files
-$directory = new RecursiveDirectoryIterator('/path/to/modern-php/app');
-foreach (new RecursiveIteratorIterator($directory) as $file) {
-    if ($file->getExtension() === 'php') {
-        fixPhpFile($file->getPathname());
-        echo "Fixed: {$file->getPathname()}\n";
+        return mb_substr($string, 0, $length, 'UTF-8') . $suffix;
+    }
+
+    public static function split(string $string, int $length = 1): array
+    {
+        $result = [];
+        $len = self::length($string);
+
+        for ($i = 0; $i < $len; $i += $length) {
+            $result[] = mb_substr($string, $i, $length, 'UTF-8');
+        }
+
+        return $result;
+    }
+
+    public static function equals(string $str1, string $str2, string $locale = 'zh_CN'): bool
+    {
+        if (self::$collator === null) {
+            self::$collator = new Collator($locale);
+        }
+
+        return self::$collator->compare($str1, $str2) === 0;
+    }
+
+    public static function contains(string $haystack, string $needle): bool
+    {
+        return mb_strpos($haystack, $needle, 0, 'UTF-8') !== false;
+    }
+
+    public static function startsWith(string $haystack, string $needle): bool
+    {
+        return mb_strpos($haystack, $needle, 0, 'UTF-8') === 0;
+    }
+
+    public static function endsWith(string $haystack, string $needle): bool
+    {
+        return mb_substr($haystack, -self::length($needle), null, 'UTF-8') === $needle;
     }
 }
+```
+
+#### Automated Fix Script: `scripts/fix-string-functions.php`
+
+```bash
+#!/bin/bash
+# Semi-automated string function migration
+# WARNING: Review changes before committing!
+
+cd /path/to/modern-php/app
+
+# Find files with legacy string functions
+echo "Finding files with legacy string functions..."
+
+grep -rl '\bstrlen\s*(' . --include="*.php" > /tmp/strlen_files.txt
+grep -rl '\bsubstr\s*(' . --include="*.php" > /tmp/substr_files.txt
+grep -rl '\bstrpos\s*(' . --include="*.php" > /tmp/strpos_files.txt
+grep -rl '\bstrtolower\s*(' . --include="*.php" > /tmp/strtolower_files.txt
+grep -rl '\bstrtoupper\s*(' . --include="*.php" > /tmp/strtoupper_files.txt
+
+echo "Found $(wc -l < /tmp/strlen_files.txt) files using strlen"
+echo "Found $(wc -l < /tmp/substr_files.txt) files using substr"
+echo "Found $(wc -l < /tmp/strpos_files.txt) files using strpos"
+echo "Found $(wc -l < /tmp/strtolower_files.txt) files using strtolower"
+echo "Found $(wc -l < /tmp/strtoupper_files.txt) files using strtoupper"
+
+echo "See /tmp/*_files.txt for complete lists"
+echo ""
+echo "⚠️  MANUAL REVIEW REQUIRED for each file!"
+echo ""
+echo "Example migration:"
+echo "  strlen(\$var) → mb_strlen(\$var, 'UTF-8')"
+echo "  substr(\$str, 0, 10) → mb_substr(\$str, 0, 10, 'UTF-8')"
+```
+
+#### PHP Configuration
+
+**Ensure mbstring extension is enabled:**
+
+```ini
+; /etc/php/8.3/fpm/php.ini
+extension=mbstring
+
+; Set default encoding
+mbstring.language=Neutral
+mbstring.internal_encoding=UTF-8
+mbstring.http_input=UTF-8
+mbstring.http_output=UTF-8
+mbstring.encoding_translation=On
+mbstring.detect_order=auto
+mbstring.substitute_character=none
+mbstring.func_overload=0
+```
+
+**Verify in PHP:**
+
+```php
+<?php
+// Check mbstring availability
+if (!extension_loaded('mbstring')) {
+    die('mbstring extension required for UTF-8 support');
+}
+
+// Check configuration
+echo "Internal encoding: " . mb_internal_encoding() . "\n"; // Should be UTF-8
+echo "HTTP output encoding: " . mb_http_output() . "\n"; // Should be UTF-8
 ```
 
 ---
