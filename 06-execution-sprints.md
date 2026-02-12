@@ -35,9 +35,14 @@
 
 ### Sprint 1: Configuration & Bootstrap (Days 1-5)
 
-**Goal:** Application loads with modern config
+**Goal:** Application loads with modern config + UTF-8 database
 
 **Tasks:**
+- **GBK→UTF-8 Database Migration** (CRITICAL - see 08-gbk-to-utf8-detailed.md)
+  - Full database backup
+  - Convert database schema to utf8mb4
+  - Convert all data from GBK to UTF-8
+  - Validate data integrity
 - Migrate config.inc.php → config/app.php
 - Implement environment variables
 - Migrate common.inc.php → bootstrap/app.php
@@ -45,6 +50,8 @@
 - Add error handling and logging
 
 **Deliverables:**
+- ✅ Database converted to utf8mb4
+- ✅ All data validated as UTF-8
 - ✅ Application loads
 - ✅ Configuration from .env
 - ✅ Error logging works

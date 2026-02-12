@@ -202,18 +202,27 @@ $dbhost = 'localhost';
 
 ### Week 1: Kickoff
 
+**⚠️ CRITICAL PRIORITY: GBK→UTF-8 Migration**
+
+Although document #8, GBK→UTF-8 migration **MUST be completed in Week 1** (Days 1-5) as the foundation for all other work.
+
 **Day 1:**
 - Team orientation meeting
-- Review all documents
+- **Review `08-gbk-to-utf8-detailed.md`** - UTF-8 migration guide
+- Take full database backup
 - Assign roles and responsibilities
 
 **Day 2-3:**
+- **Execute GBK→UTF-8 database conversion** (see 08-gbk-to-utf8-detailed.md)
+  - Convert database schema to utf8mb4
+  - Convert all data from GBK to UTF-8
+  - Validate data integrity
 - Study P0 critical path
-- Set up development environment
-- Configure CI/CD pipeline
+- Set up development environment (after UTF-8 migration)
 
 **Day 4-5:**
-- Begin Sprint 1 (Configuration)
+- Complete Sprint 1 (Configuration + UTF-8 validation)
+- Begin Sprint 2 (Database layer with UTF-8)
 - Daily standups begin
 
 ---

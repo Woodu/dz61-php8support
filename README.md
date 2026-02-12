@@ -25,10 +25,12 @@ modern-php-execution-plan/
 ├── 05-dependency-graph.md - Visual dependency maps
 ├── 06-execution-sprints.md - Week-by-week breakdown
 ├── 07-file-migration-checklist.md - Track every file
-├── 08-gbk-to-utf8-detailed.md - Encoding conversion
+├── 08-gbk-to-utf8-detailed.md - Encoding conversion (⚠️ EXECUTE IN WEEK 1!)
 ├── 09-testing-strategy.md - Quality assurance
 └── 10-deployment-plan.md - Production rollout
 ```
+
+> **⚠️ CRITICAL**: Although `08-gbk-to-utf8-detailed.md` is document #8, **GBK→UTF-8 migration MUST be executed in Week 1 (P0 phase)** before any other development. See Sprint 1 tasks in `06-execution-sprints.md`.
 
 ---
 
@@ -38,15 +40,17 @@ modern-php-execution-plan/
 
 **Start here:**
 1. Read `00-complete-feature-inventory.md` - Understand scope
-2. Review `06-execution-sprints.md` - See timeline
-3. Check `07-file-migration-checklist.md` - Track progress
+2. **Review `08-gbk-to-utf8-detailed.md`** - This is Week 1 priority!
+3. Review `06-execution-sprints.md` - See timeline
+4. Check `07-file-migration-checklist.md` - Track progress
 
 ### For Developers
 
 **Start here:**
-1. Study `01-p0-critical-path.md` - Learn architecture
-2. Review `05-dependency-graph.md` - Understand dependencies
-3. Check `02-p1-core-features.md` - Start coding
+1. **Read `08-gbk-to-utf8-detailed.md`** - UTF-8 is foundation for all code
+2. Study `01-p0-critical-path.md` - Learn architecture
+3. Review `05-dependency-graph.md` - Understand dependencies
+4. Check `02-p1-core-features.md` - Start coding (after UTF-8 migration)
 
 ### For QA Engineers
 
@@ -58,9 +62,10 @@ modern-php-execution-plan/
 ### For DevOps
 
 **Start here:**
-1. Study `08-gbk-to-utf8-detailed.md` - Plan encoding migration
+1. **Read `08-gbk-to-utf8-detailed.md` FIRST** - GBK→UTF-8 must be done in Week 1!
 2. Review `10-deployment-plan.md` - Plan rollout
 3. Check `05-dependency-graph.md` - Understand system architecture
+4. Study `06-execution-sprints.md` - See Week 1 tasks
 
 ---
 
