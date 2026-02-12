@@ -26,8 +26,9 @@ modern-php-execution-plan/
 ├── 06-execution-sprints.md - Week-by-week breakdown
 ├── 07-file-migration-checklist.md - Track every file
 ├── 08-gbk-to-utf8-detailed.md - Encoding conversion (⚠️ EXECUTE IN WEEK 1!)
-├── 09-testing-strategy.md - Quality assurance
-└── 10-deployment-plan.md - Production rollout
+├── 09-testing-strategy.md - Quality assurance strategy
+├── 10-deployment-plan.md - Production rollout
+└── 11-file-level-test-plan.md - File-by-file test requirements & test cases 🆕
 ```
 
 > **⚠️ CRITICAL**: Although `08-gbk-to-utf8-detailed.md` is document #8, **GBK→UTF-8 migration MUST be executed in Week 1 (P0 phase)** before any other development. See Sprint 1 tasks in `06-execution-sprints.md`.
@@ -55,9 +56,15 @@ modern-php-execution-plan/
 ### For QA Engineers
 
 **Start here:**
-1. Read `09-testing-strategy.md` - Understand testing approach
-2. Review `06-execution-sprints.md` - See sprint schedule
-3. Track `07-file-migration-checklist.md` - Update status
+1. **Read `11-file-level-test-plan.md`** - Complete file-by-file test cases 🆕
+2. Read `09-testing-strategy.md` - Understand testing approach
+3. Review `06-execution-sprints.md` - See sprint schedule
+4. Track `07-file-migration-checklist.md` - Update status
+
+**Key Testing Documents:**
+- `11-file-level-test-plan.md` - Test cases for every migrated file (CRITICAL!)
+- `09-testing-strategy.md` - Overall testing strategy
+- Both documents together provide complete test coverage
 
 ### For DevOps
 

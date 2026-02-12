@@ -28,8 +28,9 @@ A comprehensive, code-level migration plan for Discuz! 6.1F to modern PHP 8.x.
 | 10 | 08-gbk-to-utf8-detailed.md | 612 | 15K | UTF-8 conversion guide |
 | 11 | 09-testing-strategy.md | 681 | 16K | Quality assurance plan |
 | 12 | 10-deployment-plan.md | 656 | 13K | Production rollout strategy |
+| 13 | 11-file-level-test-plan.md | 1,500+ | 40K+ | File-by-file test requirements & cases 🆕 |
 
-**Total:** 10,156 lines across 11 documents (260KB)
+**Total:** 11,600+ lines across 13 documents (300KB+)
 
 ---
 
@@ -94,7 +95,62 @@ $dbhost = 'localhost';
 
 ---
 
-### 4. Visual Dependencies
+### 4. Comprehensive Testing Strategy 🆕
+
+**NEW: Document 11 - File-Level Test Plan (1,500+ lines)**
+
+Complete file-by-file testing requirements including:
+
+**Test Coverage for Every File:**
+- ✅ File → Test mapping (which files need which tests)
+- ✅ Unit test examples with full code
+- ✅ Integration test scenarios
+- ✅ Test data fixtures
+- ✅ Sprint-by-sprint test checklists
+
+**Key Testing Components:**
+
+1. **P0 Files - Complete Test Coverage**
+   - ConfigTest.php (config/app.php)
+   - AppTest.php (bootstrap/app.php)
+   - ConnectionTest.php (Database layer)
+   - StringFunctionsTest.php (UTF-8 string functions)
+   - AuthServiceTest.php (Authentication)
+
+2. **P1 Core Feature Tests**
+   - ForumIndexTest.php (index.php)
+   - ForumDisplayTest.php (forumdisplay.php)
+   - ThreadViewTest.php (viewthread.php)
+   - PostControllerTest.php (post.php)
+
+3. **Data Migration Tests**
+   - Utf8ConversionTest.php (GBK→UTF-8 validation)
+   - DataIntegrityTest.php (No data loss)
+   - EmojiSupportTest.php (utf8mb4 validation)
+   - ChineseCharacterTest.php (Character encoding)
+
+4. **Regression Test Suite**
+   - CriticalUserJourneysTest.php (20 user flows)
+   - Performance benchmarks
+   - Security tests (SQL injection, XSS, CSRF)
+
+5. **Test Automation**
+   - CI/CD workflow
+   - Sprint test scripts
+   - Coverage reporting
+   - Test data seeding
+
+**What Makes This Unique:**
+Unlike generic testing guides, this provides:
+- ✅ **Actual test code** you can copy
+- ✅ **File-by-file mapping** - know exactly what to test
+- ✅ **Sprint checklists** - what tests to run each week
+- ✅ **Test fixtures** - sample data for Chinese/emoji
+- ✅ **Bash scripts** - automated test execution
+
+---
+
+### 5. Visual Dependencies
 
 **11 Mermaid diagrams showing:**
 - High-level feature dependencies
@@ -110,9 +166,9 @@ $dbhost = 'localhost';
 
 ---
 
-### 5. Risk Management
+### 6. Risk Management
 
-**5 major risks identified:**
+**6 major risks identified:**
 1. UTF-8 conversion failure (HIGH)
 2. Underestimated complexity (HIGH)
 3. Performance regression (MEDIUM)
